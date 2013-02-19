@@ -17,6 +17,8 @@ The hierarchy of a PanesLayout looks like this:
 
 A PanesLayout can hold any number of panes. Each pane is made up of a PaneScrollView (which allows the pane contents to slide left & right), a PaneView (which provides padding on the left of the content), and some content (i.e. fragment).
 
+<iframe frameborder="0" height="270" src="http://www.youtube.com/embed/Cmss0DREnj8" width="480"></iframe>
+
 h2. Using PanesLayout
 
 Variables associated with each pane:
