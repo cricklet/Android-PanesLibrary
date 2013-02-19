@@ -1,4 +1,4 @@
-sah1. PanesLayout
+h1. PanesLayout
 
 This library aims to make creating multi-pane layouts (like the 2-pane gmail app) much easier.</b>
 
