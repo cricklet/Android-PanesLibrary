@@ -18,14 +18,11 @@ Have your activity extend PanesActivity. Then, add fragments to the activity usi
  * getMenuFragment(): get the menu fragment
  * getTopFragment(): get the fragment on the top of the stack
 
-You also need to provide a PaneSizer:
- * getWidth(index, type, parentWidth, parentHeight): returns the desired width of each pane.
- * getType(Object o): returns the type (which is an arbitrary integer) which getWidth will then use to size the pane. 'o' is the object associated with this pane (either a Fragment or a View).
- * getFocused(Object o): whether touch events should ever be intercepted
+You also need to provide a PaneSizer. This object allows you to programatically set the width of each pane based on the type of Fragment/View you want to place inside the pane.
 
 You should also implement updateFragment(fragment). This is run whenever a fragment is added (even on activity restarts).
  
-These fragments are added in a stack where the 0th fragment is the menu. Here's an example of what this means:
+Fragments are added onto a stack where the 0th fragment is the menu. Here's an example of what this means:
 
 <pre><code>
 > setMenuFragment(A)
