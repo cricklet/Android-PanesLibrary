@@ -1,5 +1,7 @@
 package com.mapsaurus.paneslayout;
 
+import java.lang.ref.WeakReference;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.mapsaurus.panelayout.R;
@@ -85,7 +87,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	@Override
 	public boolean onBackPressed() {
 		FragmentManager fm = getSupportFragmentManager();
-
+		
 		if (menu.isMenuShowing() == false) {
 			if (fm.getBackStackEntryCount() > 0) {
 				return false;
@@ -118,11 +120,16 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	/* *********************************************************************
 	 * Adding, removing, getting fragments
 	 * ********************************************************************* */
-
+	
+	private WeakReference<Fragment> wMenuFragment;
+	// This is necessary because sometimes addFragment gets called before the menu fragment
+	// transaction has been committed-- and addFragment adds fragments differently depending
+	// on if they're supposed to be added after the menu fragment
+	
 	@Override
 	public void addFragment(Fragment prevFragment, Fragment newFragment) {
 		boolean addToBackStack = false;
-		if (prevFragment == getMenuFragment() || prevFragment == null) {
+		if (prevFragment == wMenuFragment.get() || prevFragment == null) {
 			clearFragments();
 		} else {
 			addToBackStack = true;
@@ -149,13 +156,11 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 		for(int i = 0; i < fm.getBackStackEntryCount(); i ++)    
 			fm.popBackStack();
 	}
-
-	@Override
-	public void updateFragment(Fragment f) {
-	}
-
+	
 	@Override
 	public void setMenuFragment(Fragment f) {
+		wMenuFragment = new WeakReference<Fragment>(f);
+		
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(R.id.menu_frame, f);
@@ -166,8 +171,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 
 	@Override
 	public Fragment getMenuFragment() {
-		FragmentManager fm = getSupportFragmentManager();
-		return fm.findFragmentById(R.id.menu_frame);
+		return wMenuFragment.get();
 	}
 
 	@Override

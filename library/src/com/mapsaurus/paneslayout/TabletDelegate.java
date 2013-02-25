@@ -195,10 +195,6 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	}
 
 	@Override
-	public void updateFragment(Fragment f) {
-	}
-
-	@Override
 	public void setMenuFragment(Fragment menuFragment) {
 		addFragment(menuFragment, 0);
 

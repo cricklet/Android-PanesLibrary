@@ -12,7 +12,7 @@ import android.view.View;
 public abstract class ActivityDelegate {
 
 	private PanesActivity mActivity;
-	
+
 	public ActivityDelegate(PanesActivity a) {
 		mActivity = a;
 	}
@@ -21,7 +21,7 @@ public abstract class ActivityDelegate {
 	 * Save the state of the panes 
 	 */
 	public abstract void onSaveInstanceState(Bundle savedInstanceState);
-	
+
 	/**
 	 * onCreate
 	 */
@@ -47,11 +47,6 @@ public abstract class ActivityDelegate {
 	public abstract void clearFragments();
 
 	/**
-	 * Update a fragment
-	 */
-	public abstract void updateFragment(Fragment f);
-
-	/**
 	 * Get menu framgent
 	 */
 	public abstract Fragment getMenuFragment();
@@ -74,7 +69,7 @@ public abstract class ActivityDelegate {
 	 * Deal with back pressed
 	 */
 	public abstract boolean onBackPressed();
-	
+
 	/**
 	 * Deal with menu buttons
 	 */
@@ -84,28 +79,32 @@ public abstract class ActivityDelegate {
 	 * Wrapper functions to make coding a delegate less annoying
 	 * ********************************************************************* */
 
-	protected PanesActivity getActivity() {
+	protected final PanesActivity getActivity() {
 		return mActivity;
 	}
-	
-	protected void setContentView(int layoutResId) {
+
+	protected final void setContentView(int layoutResId) {
 		mActivity.setContentView(layoutResId);
 	}
 
-	protected ActionBar getSupportActionBar() {
+	protected final ActionBar getSupportActionBar() {
 		return mActivity.getSupportActionBar();
 	}
 
-	protected Resources getResources() {
+	protected final Resources getResources() {
 		return mActivity.getResources();
 	}
 
-	protected FragmentManager getSupportFragmentManager() {
+	protected final FragmentManager getSupportFragmentManager() {
 		return mActivity.getSupportFragmentManager();
 	}
 
-	protected View findViewById(int id) {
+	protected final View findViewById(int id) {
 		return mActivity.findViewById(id);
 	}
-	
+
+	protected final void updateFragment(Fragment f) {
+		mActivity.updateFragment(f);
+	}
+
 }

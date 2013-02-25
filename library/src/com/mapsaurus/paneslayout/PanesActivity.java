@@ -9,7 +9,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.mapsaurus.paneslayout.PanesSizer.PaneSizer;
 
-public class PanesActivity extends SherlockFragmentActivity implements FragmentLauncher{
+public abstract class PanesActivity extends SherlockFragmentActivity implements FragmentLauncher{
 
 	private ActivityDelegate mDelegate;
 	
@@ -36,6 +36,11 @@ public class PanesActivity extends SherlockFragmentActivity implements FragmentL
 
 		mDelegate.onCreate(savedInstanceState);
 	}
+	
+	/**
+	 * Deals with updating fragments on orientation changes and layout changes.
+	 */
+	public abstract void updateFragment(Fragment f);
 
 	/* *********************************************************************
 	 * Deal with over-riding activity methods
@@ -102,13 +107,6 @@ public class PanesActivity extends SherlockFragmentActivity implements FragmentL
 	 */
 	public void clearFragments() {
 		mDelegate.clearFragments();
-	}
-	
-	/**
-	 * Update a fragment
-	 */
-	public void updateFragment(Fragment f) {
-		mDelegate.updateFragment(f);
 	}
 
 	/**
