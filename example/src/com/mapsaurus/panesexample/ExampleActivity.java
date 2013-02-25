@@ -27,12 +27,18 @@ public class ExampleActivity extends PanesActivity {
 		@Override
 		public int getWidth(int index, int type, int parentWidth, int parentHeight) {
 			if (parentWidth > parentHeight) {
-				if (type == DEFAULT_PANE_TYPE)
-					return (int) (0.4 * parentWidth);
+				if (type == DEFAULT_PANE_TYPE && index == 0)
+					return (int) (0.25 * parentWidth);
+				else if (type == DEFAULT_PANE_TYPE)
+					return (int) (0.375 * parentWidth);
 				else throw new IllegalStateException("Pane has unknown type");
 			} else {
-				if (type == DEFAULT_PANE_TYPE)
+				if (type == DEFAULT_PANE_TYPE && index == 0)
+					return (int) (0.4 * parentWidth);
+				else if (type == DEFAULT_PANE_TYPE)
 					return (int) (0.6 * parentWidth);
+				if (type == DEFAULT_PANE_TYPE)
+					return (int) (0.75 * parentWidth);
 				else throw new IllegalStateException("Pane has unknown type");
 			}
 		}
@@ -69,6 +75,11 @@ public class ExampleActivity extends PanesActivity {
 			// addFragment(first, second);
 			// addFragment(second, third);
 		}
+	}
+
+	@Override
+	public void updateFragment(Fragment f) {
+		// we don't need to do anything to fragments on orientation change
 	}
 
 }
