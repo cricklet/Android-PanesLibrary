@@ -2,11 +2,21 @@ h1. PanesLibrary
 
 This library makes it ridiculously easy to make native Android apps with multi-pane tablet layouts.
 
+On the phone, the app appears as a conventional app with a sliding menu and a content pane where fragments are stacked on top of each other. On the tablet, the menu and all other fragments appear in dynamically added panes of varying sizes. 
+
 "Here's a YouTube video of PanesLibrary in action.":http://www.youtube.com/watch?v=UA-lAGVXoLU&feature=youtu.be
 
 Note, this library was built by the "Mapsaurus":http://www.mapsaurus.com team. Mapsaurus is an interactive map of the Android app world. We algorithmically create connections between related apps and enable the user to explore and discover by following these connections.
 
-h2. Using PanesLibrary (easy)
+h2. Example
+
+The example provided is very simple. Looking through the code there is probably the best place to start.
+
+ExampleActivity demonstrates all the necessary configuration for using PanesActivity.
+
+ExampleFragment uses a layout with two TextViews and a Button. The TextViews hold the index of the fragment and the length of time it's been alive. This is used to demonstrate that fragments are correctly retained on activity restarts. The Button has a callback which creates a new fragment and adds it to the parent activity.
+
+h2. Using PanesLibrary
 
 Make sure you have the "SlidingMenu":https://github.com/jfeinstein10/SlidingMenu and "ActionBarSherlock":http://actionbarsherlock.com/ libraries.
 
@@ -20,7 +30,7 @@ Have your activity extend PanesActivity. Then, add fragments to the activity usi
 
 You also need to provide a PaneSizer. This object allows you to programatically set the width of each pane based on the type of Fragment/View you want to place inside the pane.
 
-You should also implement updateFragment(fragment). This is run whenever a fragment is added (even on activity restarts).
+You should also implement updateFragment(...). This is run whenever a fragment is added (even on activity restarts).
  
 Fragments are added onto a stack where the 0th fragment is the menu. Here's an example of what this means:
 
