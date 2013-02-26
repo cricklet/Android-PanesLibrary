@@ -7,6 +7,7 @@ import com.mapsaurus.panelayout.R;
 import com.mapsaurus.paneslayout.PanesSizer.PaneSizer;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 
 public class PanesLayout extends FrameLayout {
 
@@ -43,7 +45,7 @@ public class PanesLayout extends FrameLayout {
 
 	private int parentWidth;
 	private int parentHeight;
-	
+
 	/**
 	 * Set whenever panes are changed
 	 * Unset whenever index is set
@@ -114,11 +116,11 @@ public class PanesLayout extends FrameLayout {
 			PaneScrollView scroll = scrollers.get(i);
 			PaneView pane = panes.get(i);
 			if (pane == null || scroll == null) return null;
-			
+
 			if (x > scroll.getPaneLeft())
 				return pane;
 		}
-		
+
 		return null;
 	}
 
@@ -155,7 +157,7 @@ public class PanesLayout extends FrameLayout {
 
 	private boolean scrollEverything(double index, boolean smooth) {
 		if (parentWidth <= 0) return false;
-		
+
 		index = clampIndex(index);
 
 		// get the top index
@@ -234,6 +236,12 @@ public class PanesLayout extends FrameLayout {
 			if (l != null) l.onIndexChanged(firstIndex, lastIndex,
 					firstCompleteIndex, lastCompleteIndex);
 		}
+
+		// unfocus innards
+		View v = getFocusedChild();
+		if (v != null) {
+			v.clearFocus();
+		}
 		
 		return true;
 	}
@@ -261,7 +269,7 @@ public class PanesLayout extends FrameLayout {
 
 	public PaneView addPane(int type, boolean focused) {
 		panesChanged = true;
-		
+
 		int index = panes.size();
 
 		PaneView pane = new PaneView(getContext(), type, index, focused);
@@ -278,11 +286,11 @@ public class PanesLayout extends FrameLayout {
 
 	public ArrayList<PaneView> removePanes(int removeI) {
 		panesChanged = true;
-		
+
 		ArrayList<PaneView> deletedPanes = new ArrayList<PaneView>();
 		for (int i = scrollers.size() - 1; i >= removeI; i --) {
 			if (i < 0) break;
-			
+
 			scrollers.remove(i);
 			deletedPanes.add(panes.remove(i));
 			removeViewAt(i);
@@ -299,6 +307,7 @@ public class PanesLayout extends FrameLayout {
 
 		public PaneScrollView(Context context) {
 			super(context);
+			setScrollBarStyle(0);
 		}
 
 		public int getPaneLeft() {
@@ -350,11 +359,11 @@ public class PanesLayout extends FrameLayout {
 
 		if (dx > 4 * dy && dx > 10 ) {
 			PaneView p = getPaneFromScroll(startX);
-			
+
 			int bevelSize = getResources().getDimensionPixelSize(R.dimen.bevel_size);
-			
+
 			touchPaneWidth = (int) (parentWidth * 0.25);
-			
+
 			if (p != null) {
 				if (p.index < firstCompleteIndex || p.index > lastCompleteIndex
 						|| p.focused != true || startX < bevelSize) {
@@ -362,11 +371,11 @@ public class PanesLayout extends FrameLayout {
 				} else {
 					return false;
 				}
-				
+
 			} else {
 				//touchPaneWidth = parentWidth / 2;
 			}
-			
+
 			return true;
 		}
 
@@ -462,7 +471,7 @@ public class PanesLayout extends FrameLayout {
 			startPadding.measure(
 					MeasureSpec.makeMeasureSpec(parentWidth - shadowWidth, MeasureSpec.EXACTLY),
 					MeasureSpec.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
-			
+
 			leftShadow.measure(
 					MeasureSpec.makeMeasureSpec(shadowWidth, MeasureSpec.EXACTLY),
 					MeasureSpec.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
