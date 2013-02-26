@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -240,9 +242,13 @@ public class PanesLayout extends FrameLayout {
 		// unfocus innards
 		View v = getFocusedChild();
 		if (v != null) {
+			InputMethodManager inputManager = (InputMethodManager)
+					getContext().getSystemService(Context.INPUT_METHOD_SERVICE); 
+			inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
 			v.clearFocus();
 		}
-		
+
 		return true;
 	}
 
@@ -307,7 +313,8 @@ public class PanesLayout extends FrameLayout {
 
 		public PaneScrollView(Context context) {
 			super(context);
-			setScrollBarStyle(0);
+			setVerticalScrollBarEnabled(false);
+			setHorizontalScrollBarEnabled(false);
 		}
 
 		public int getPaneLeft() {
