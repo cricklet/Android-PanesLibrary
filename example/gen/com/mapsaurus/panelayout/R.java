@@ -14,7 +14,7 @@ public final class R {
 		public static final int abs__default_activity_button = 0x7f04001d;
 		public static final int homeAsUp = 0x7f040006;
 		public static final int abs__search_bar = 0x7f04002d;
-		public static final int menu_frame = 0x7f04003d;
+		public static final int menu_frame = 0x7f04003e;
 		public static final int abs__action_mode_bar = 0x7f04002b;
 		public static final int abs__imageButton = 0x7f040017;
 		public static final int edit_query = 0x7f04002c;
@@ -33,10 +33,10 @@ public final class R {
 		public static final int abs__progress_horizontal = 0x7f04000f;
 		public static final int showHome = 0x7f040005;
 		public static final int fullscreen = 0x7f040013;
-		public static final int slidingmenumain = 0x7f04003e;
+		public static final int slidingmenumain = 0x7f04003f;
 		public static final int abs__home = 0x7f04000a;
 		public static final int abs__search_src_text = 0x7f040033;
-		public static final int menu_settings = 0x7f04003f;
+		public static final int menu_settings = 0x7f040040;
 		public static final int abs__search_mag_icon = 0x7f040031;
 		public static final int abs__checkbox = 0x7f040023;
 		public static final int abs__search_close_btn = 0x7f040034;

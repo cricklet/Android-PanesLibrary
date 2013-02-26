@@ -305,14 +305,15 @@ int id abs__up 0x7f04000b
 int id add 0x7f04003c
 int id content_frame 0x7f040038
 int id disableHome 0x7f040009
+int id editText1 0x7f04003d
 int id edit_query 0x7f04002c
 int id fullscreen 0x7f040013
 int id homeAsUp 0x7f040006
 int id left 0x7f040010
 int id listMode 0x7f040002
 int id margin 0x7f040012
-int id menu_frame 0x7f04003d
-int id menu_settings 0x7f04003f
+int id menu_frame 0x7f04003e
+int id menu_settings 0x7f040040
 int id normal 0x7f040001
 int id panes 0x7f040039
 int id right 0x7f040011
@@ -320,7 +321,7 @@ int id selected_view 0x7f040014
 int id showCustom 0x7f040008
 int id showHome 0x7f040005
 int id showTitle 0x7f040007
-int id slidingmenumain 0x7f04003e
+int id slidingmenumain 0x7f04003f
 int id tabMode 0x7f040003
 int id text1 0x7f04003a
 int id text2 0x7f04003b

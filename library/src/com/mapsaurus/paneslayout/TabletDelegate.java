@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.mapsaurus.panelayout.R;
@@ -98,14 +99,15 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 			}
 			panesLayout.setIndex(currentIndex);
 		}
-
+		
 		if (savedInstanceState != null) {
 			FragmentManager fm = getSupportFragmentManager();
-
+			
 			for (int index = 0; index < panesLayout.getNumPanes(); index ++) {
 				int id = panesLayout.getPane(index).getInnerId();
-
 				Fragment f = fm.findFragmentById(id);
+				
+				fragmentStack.add(f);
 				updateFragment(f);
 			}
 		}
@@ -115,18 +117,16 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	 * Methods for dealing with adding/removing fragments.
 	 * ********************************************************************* */
 
-	private int getIndex(Fragment f) {
-		FragmentManager fm = getSupportFragmentManager();
-		for (int i = 0; i < panesLayout.getNumPanes(); i ++) {
-			int id = panesLayout.getPane(i).getInnerId();
-			if (fm.findFragmentById(id) == f)
-				return i;
-		}
-
-		return -1;
-	}
-
+	/**
+	 * Save the fragment stack manually. The reason to do this is because sometimes when
+	 * we need to retrieve a fragment, that fragment has not yet been added.
+	 */
+	private ArrayList<Fragment> fragmentStack = new ArrayList<Fragment>();
+	
 	private void clearFragments(int index) {
+		while (index < fragmentStack.size())
+			fragmentStack.remove(index);
+		
 		ArrayList<PaneView> panes = panesLayout.removePanes(index);
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
@@ -143,7 +143,9 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 
 	private void addFragment(Fragment f, int index) {
 		if (f == null) return;
-
+		
+		Log.e("ASDF", f + ": " + index);
+		
 		clearFragments(index + 1);
 
 		int type = 0;
@@ -171,6 +173,7 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 		ft.replace(p.getInnerId(), f);
 		ft.commit();
 
+		fragmentStack.add(index, f);
 		updateFragment(f);
 	}
 
@@ -201,10 +204,21 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 		updateFragment(menuFragment);
 	}
 
+	private int getIndex(Fragment f) {
+		for (int i = 0; i < fragmentStack.size(); i ++) {
+			if (fragmentStack.get(i) == f)
+				return i;
+		}
+		return -1;
+	}
+	
 	private Fragment getFragment(int index) {
-		PaneView pane = panesLayout.getPane(index);
-		FragmentManager fm = getSupportFragmentManager();
-		Fragment f = fm.findFragmentById(pane.getInnerId());
+		Fragment f = fragmentStack.get(index);
+		
+		// PaneView pane = panesLayout.getPane(index);
+		// FragmentManager fm = getSupportFragmentManager();
+		// Fragment f = fm.findFragmentById(pane.getInnerId());
+		
 		return f;
 	}
 
