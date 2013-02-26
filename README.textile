@@ -4,7 +4,7 @@ This library makes it ridiculously easy to make native Android apps with multi-p
 
 "Here's a YouTube video of PanesLibrary in action.":http://www.youtube.com/watch?v=UA-lAGVXoLU&feature=youtu.be
 
-Note, this library was built by the "Mapsaurus":http://www.mapsaurus.com team. Mapsaurus is an interactive map of the Android app world. We algorithmically create connections between related apps and enable the user to explore and discover by following these connections. Follow us on Twitter "@Mapsaurus"https://twitter.com/Mapsaurus for more on PanesLibrary and our app!
+Note, this library was built by the "Mapsaurus":http://www.mapsaurus.com team. Mapsaurus is an interactive map of the Android app world. We algorithmically create connections between related apps and enable the user to explore and discover by following these connections. Follow us on Twitter "@Mapsaurus":https://twitter.com/Mapsaurus for more on PanesLibrary and our app!
 
 h2. Example
 
