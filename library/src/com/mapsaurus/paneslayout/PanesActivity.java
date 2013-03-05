@@ -19,7 +19,7 @@ public abstract class PanesActivity extends SherlockFragmentActivity implements 
 
 		mDelegate.onSaveInstanceState(savedInstanceState);
 	}
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

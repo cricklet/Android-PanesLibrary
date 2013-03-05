@@ -33,7 +33,8 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.content_frame);
+		if (findViewById(R.id.content_frame) == null)
+			setContentView(R.layout.content_frame);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// initialize sliding menu
@@ -63,7 +64,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 
 		menu.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
 		if (savedInstanceState == null) {
-			menu.showMenu();
+			menu.showContent();
 		} else {
 			if (savedInstanceState.getBoolean("PhoneLayout_menuOpen"))
 				menu.showMenu();
@@ -188,7 +189,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 
 	@Override
 	public void showMenu() {
-		menu.showMenu();
+		menu.showMenu(true);
 	}
 
 }

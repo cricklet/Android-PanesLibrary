@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.mapsaurus.panelayout.R;
@@ -15,14 +17,14 @@ import com.mapsaurus.paneslayout.PanesLayout.PaneView;
 import com.mapsaurus.paneslayout.PanesSizer.PaneSizer;
 
 public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIndexChangedListener  {
-	
+
 	private PaneSizer mPaneSizer;
-	
+
 	public void setPaneSizer(PaneSizer sizer) {
 		panesLayout.setPaneSizer(sizer);
 		mPaneSizer = sizer;
 	}
-	
+
 	/**
 	 * This provides all the logic for displaying and moving panes.
 	 */
@@ -85,11 +87,16 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.panes_layout);
+		if (findViewById(R.id.content_frame) == null) {
+			setContentView(R.layout.panes_layout);
+		} else {
+			View.inflate(getActivity(), R.layout.panes_layout,
+					(ViewGroup) findViewById(R.id.content_frame));
+		}
 
 		panesLayout = (PanesLayout) findViewById(R.id.panes);
 		panesLayout.setOnIndexChangedListener(this);
-		
+
 		if (savedInstanceState != null) {
 			int[] panesType = savedInstanceState.getIntArray("PanesLayout_panesType");
 			boolean[] panesFocused = savedInstanceState.getBooleanArray("PanesLayout_panesFocused");
@@ -99,14 +106,14 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 			}
 			panesLayout.setIndex(currentIndex);
 		}
-		
+
 		if (savedInstanceState != null) {
 			FragmentManager fm = getSupportFragmentManager();
-			
+
 			for (int index = 0; index < panesLayout.getNumPanes(); index ++) {
 				int id = panesLayout.getPane(index).getInnerId();
 				Fragment f = fm.findFragmentById(id);
-				
+
 				fragmentStack.add(f);
 				updateFragment(f);
 			}
@@ -122,11 +129,11 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	 * we need to retrieve a fragment, that fragment has not yet been added.
 	 */
 	private ArrayList<Fragment> fragmentStack = new ArrayList<Fragment>();
-	
+
 	private void clearFragments(int index) {
 		while (index < fragmentStack.size())
 			fragmentStack.remove(index);
-		
+
 		ArrayList<PaneView> panes = panesLayout.removePanes(index);
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
@@ -144,19 +151,17 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	private void addFragment(Fragment f, int index) {
 		if (f == null) return;
 		
-		Log.e("ASDF", f + ": " + index);
-		
 		clearFragments(index + 1);
 
 		int type = 0;
 		boolean focused = false;
-		
+
 		PaneSizer paneSizer = mPaneSizer;
 		if (paneSizer != null) {
 			type = paneSizer.getType(f);
 			focused = paneSizer.getFocused(f);
 		}
-		
+
 		PaneView p = panesLayout.getPane(index);
 		if (p != null && p.type == type) {
 		} else {
@@ -181,10 +186,10 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	public void addFragment(Fragment oldFragment, Fragment newFragment) {
 		if (newFragment != null) {
 			int index = 1; // by default, add after menu
-			
+
 			int oldIndex = getIndex(oldFragment);
 			if (oldIndex != -1) index = oldIndex + 1;
-			
+
 			addFragment(newFragment, index);
 			updateFragment(newFragment);
 		} else {
@@ -211,15 +216,16 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 		}
 		return -1;
 	}
-	
+
 	private Fragment getFragment(int index) {
-		Fragment f = fragmentStack.get(index);
-		
+		if (index < fragmentStack.size() && index >= 0)
+			return fragmentStack.get(index);
+
 		// PaneView pane = panesLayout.getPane(index);
 		// FragmentManager fm = getSupportFragmentManager();
 		// Fragment f = fm.findFragmentById(pane.getInnerId());
-		
-		return f;
+
+		return null;
 	}
 
 	@Override

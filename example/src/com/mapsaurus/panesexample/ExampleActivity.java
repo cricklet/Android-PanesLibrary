@@ -6,6 +6,7 @@ import com.mapsaurus.paneslayout.PanesSizer.PaneSizer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.TimingLogger;
 
 public class ExampleActivity extends PanesActivity {
 
@@ -67,17 +68,13 @@ public class ExampleActivity extends PanesActivity {
 		if (savedInstanceState == null) {
 			Fragment menu = new ExampleFragment();
 			Fragment first = new ExampleFragment();
-			Log.e("ASDF", "SET MENU");
 			setMenuFragment(menu);
-			Log.e("ASDF", "ADD FRAGMENT");
 			addFragment(menu, first);
 			
 			// if you wanted to add more fragments after these ones, you can do:
 			 Fragment second = new ExampleFragment();
 			 Fragment third = new ExampleFragment();
-				Log.e("ASDF", "ADD FRAGMENT");
 			 addFragment(first, second);
-			 Log.e("ASDF", "ADD FRAGMENT");
 			 addFragment(second, third);
 		}
 	}
