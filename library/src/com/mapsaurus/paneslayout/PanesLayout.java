@@ -78,8 +78,7 @@ public class PanesLayout extends FrameLayout {
 				int firstCompleteIndex, int lastCompleteIndex);
 	}
 
-	private WeakReference<OnIndexChangedListener> wIndexChangedListener =
-			new WeakReference<OnIndexChangedListener>(null);
+	private WeakReference<OnIndexChangedListener> wIndexChangedListener = null;
 
 	public void setOnIndexChangedListener(OnIndexChangedListener l) {
 		this.wIndexChangedListener = new WeakReference<OnIndexChangedListener>(l);
