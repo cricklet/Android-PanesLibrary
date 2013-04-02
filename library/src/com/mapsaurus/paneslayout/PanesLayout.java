@@ -28,7 +28,7 @@ public class PanesLayout extends FrameLayout {
 	private ArrayList<SimpleScrollView> scrollers;
 
 	/**
-	 * Each pane contains a container for something else (fragment, view, etc) 
+	 * Each pane contains a container for something else (fragment, view, etc)
 	 */
 	private ArrayList<PaneView> panes;
 
@@ -38,7 +38,7 @@ public class PanesLayout extends FrameLayout {
 	private int currentIndex = 0;
 
 	/**
-	 * Currently visible indexes. Complete means the pane is completely visible. 
+	 * Currently visible indexes. Complete means the pane is completely visible.
 	 */
 	private int firstIndex;
 	private int firstCompleteIndex;
@@ -49,8 +49,7 @@ public class PanesLayout extends FrameLayout {
 	private int parentHeight;
 
 	/**
-	 * Set whenever panes are changed
-	 * Unset whenever index is set
+	 * Set whenever panes are changed Unset whenever index is set
 	 */
 	private boolean panesChanged = true;
 
@@ -69,10 +68,14 @@ public class PanesLayout extends FrameLayout {
 	 */
 	public interface OnIndexChangedListener {
 		/**
-		 * @param firstIndex = the bottom-most visible pane
-		 * @param lastIndex = the top-most visible pane
-		 * @param firstCompleteIndex = the bottom-most completely visible pane
-		 * @param lastCompleteIndex = the top-most completely visible pane
+		 * @param firstIndex
+		 *            = the bottom-most visible pane
+		 * @param lastIndex
+		 *            = the top-most visible pane
+		 * @param firstCompleteIndex
+		 *            = the bottom-most completely visible pane
+		 * @param lastCompleteIndex
+		 *            = the top-most completely visible pane
 		 */
 		public void onIndexChanged(int firstIndex, int lastIndex,
 				int firstCompleteIndex, int lastCompleteIndex);
@@ -84,7 +87,7 @@ public class PanesLayout extends FrameLayout {
 	public void setOnIndexChangedListener(OnIndexChangedListener l) {
 		this.wIndexChangedListener = new WeakReference<OnIndexChangedListener>(l);
 	}
-	
+
 	public PanesLayout(Context context) {
 		this(context, null);
 	}
@@ -116,16 +119,17 @@ public class PanesLayout extends FrameLayout {
 			panesChanged = false;
 		}
 	}
-	
+
 	private int getPaneX(SimpleScrollView scroll) {
 		return parentWidth - scroll.getScrollX();
 	}
 
 	private PaneView getPaneFromScroll(double x) {
-		for (int i = lastIndex; i >= 0; i --) {
+		for (int i = lastIndex; i >= 0; i--) {
 			SimpleScrollView scroll = scrollers.get(i);
 			PaneView pane = panes.get(i);
-			if (pane == null || scroll == null) return null;
+			if (pane == null || scroll == null)
+				return null;
 
 			if (x > getPaneX(scroll))
 				return pane;
@@ -135,7 +139,8 @@ public class PanesLayout extends FrameLayout {
 	}
 
 	private double clampIndex(double index) {
-		if (index < 0) index = 0;
+		if (index < 0)
+			index = 0;
 		if (index > scrollers.size() - 1)
 			index = scrollers.size() - 1;
 		return index;
@@ -148,13 +153,14 @@ public class PanesLayout extends FrameLayout {
 		if (!s.isLayoutDirty()) {
 			if (smooth)
 				s.smoothScrollTo((int) scrollX, 0);
-			else s.scrollTo((int) scrollX, 0);
+			else
+				s.scrollTo((int) scrollX, 0);
 		}
 	}
 
 	/**
-	 * Scroll all the panes based on some index.
-	 * Returns which index is the top-most pane.
+	 * Scroll all the panes based on some index. Returns which index is the
+	 * top-most pane.
 	 */
 	private boolean partiallyVisible(int scroll, int width) {
 		return (scroll - width < parentWidth + 5 && scroll >= 5);
@@ -165,27 +171,31 @@ public class PanesLayout extends FrameLayout {
 	}
 
 	private boolean scrollEverything(double index, boolean smooth) {
-		if (parentWidth <= 0) return false;
+		if (parentWidth <= 0)
+			return false;
 
 		index = clampIndex(index);
 
 		// get the top index
 		int topIndex = (int) Math.ceil(index);
-		if (topIndex < 0 || topIndex >= panes.size()) return false;
+		if (topIndex < 0 || topIndex >= panes.size())
+			return false;
 
 		// get the minX & maxX of the top index
 		PaneView topPane = panes.get(topIndex);
 		SimpleScrollView topScroller = scrollers.get(topIndex);
-		if (topPane == null) return false;
+		if (topPane == null)
+			return false;
 
 		int topWidth = topPane.containerWidth;
 		double p = (topIndex - index);
 		int topScroll = (int) (topWidth - topWidth * p);// + scrollOffset;
 
 		int firstScroll = topScroll;
-		for (int i = topIndex - 1; i >= 0; i --) {
+		for (int i = topIndex - 1; i >= 0; i--) {
 			PaneView pane = panes.get(i);
-			if (pane == null) continue;
+			if (pane == null)
+				continue;
 			firstScroll += pane.containerWidth;
 		}
 
@@ -202,10 +212,11 @@ public class PanesLayout extends FrameLayout {
 
 		int scroll = topScroll - topWidth;
 		// move all panes after the top pane
-		for (int i = topIndex + 1; i < panes.size(); i ++) {
+		for (int i = topIndex + 1; i < panes.size(); i++) {
 			SimpleScrollView scroller = scrollers.get(i);
 			PaneView pane = panes.get(i);
-			if (scroller == null || pane == null) continue;
+			if (scroller == null || pane == null)
+				continue;
 			int width = pane.containerWidth;
 
 			scrollHelper(scroller, scroll, smooth);
@@ -220,10 +231,11 @@ public class PanesLayout extends FrameLayout {
 
 		scroll = topScroll;
 		// move each pane before the top pane
-		for (int i = topIndex - 1; i >= 0; i --) {
+		for (int i = topIndex - 1; i >= 0; i--) {
 			SimpleScrollView scroller = scrollers.get(i);
 			PaneView pane = panes.get(i);
-			if (scroller == null || pane == null) continue;
+			if (scroller == null || pane == null)
+				continue;
 			int width = pane.containerWidth;
 
 			scroll += pane.containerWidth;
@@ -235,25 +247,28 @@ public class PanesLayout extends FrameLayout {
 				firstCompleteIndex = i;
 		}
 
-		if (this.firstIndex != firstIndex || this.firstCompleteIndex != firstCompleteIndex ||
-				this.lastIndex != lastIndex || this.lastCompleteIndex != lastCompleteIndex) {
+		if (this.firstIndex != firstIndex
+				|| this.firstCompleteIndex != firstCompleteIndex
+				|| this.lastIndex != lastIndex
+				|| this.lastCompleteIndex != lastCompleteIndex) {
 			this.firstIndex = firstIndex;
 			this.firstCompleteIndex = firstCompleteIndex;
 			this.lastIndex = lastIndex;
 			this.lastCompleteIndex = lastCompleteIndex;
 			OnIndexChangedListener l = wIndexChangedListener.get();
-			if (l != null) l.onIndexChanged(firstIndex, lastIndex,
-					firstCompleteIndex, lastCompleteIndex);
+			if (l != null)
+				l.onIndexChanged(firstIndex, lastIndex, firstCompleteIndex, lastCompleteIndex);
 		}
 
 		return true;
 	}
-	
+
 	public void setIndex(int index) {
 		index = (int) clampIndex(index);
 		if (scrollEverything(index, true))
 			currentIndex = lastCompleteIndex;
-		else currentIndex = index;
+		else
+			currentIndex = index;
 	}
 
 	public int getCurrentIndex() {
@@ -265,8 +280,10 @@ public class PanesLayout extends FrameLayout {
 	}
 
 	public PaneView getPane(int i) {
-		if (i >= panes.size()) return null;
-		if (i < 0) return null;
+		if (i >= panes.size())
+			return null;
+		if (i < 0)
+			return null;
 		return panes.get(i);
 	}
 
@@ -291,8 +308,9 @@ public class PanesLayout extends FrameLayout {
 		panesChanged = true;
 
 		ArrayList<PaneView> deletedPanes = new ArrayList<PaneView>();
-		for (int i = scrollers.size() - 1; i >= removeI; i --) {
-			if (i < 0) break;
+		for (int i = scrollers.size() - 1; i >= removeI; i--) {
+			if (i < 0)
+				break;
 
 			scrollers.remove(i);
 			deletedPanes.add(panes.remove(i));
@@ -320,7 +338,7 @@ public class PanesLayout extends FrameLayout {
 			dragging = true;
 		}
 	}
-	
+
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
 		onTouchEventHelper(event);
@@ -328,17 +346,15 @@ public class PanesLayout extends FrameLayout {
 		double dx = Math.abs(currentX - startX);
 		double dy = Math.abs(currentY - startY);
 
-		if (dx > 4 * dy && dx > 10 ) {
+		if (dx > 4 * dy && dx > 10) {
 			PaneView p = getPaneFromScroll(startX);
 
-			int bevelSize = getResources().getDimensionPixelSize(R.dimen.bevel_size);
+			// int bevelSize =
+			// getResources().getDimensionPixelSize(R.dimen.bevel_size);
 
-			if (p != null) {
-				if (p.index < firstCompleteIndex || p.index > lastCompleteIndex
-						|| p.focused != true || startX < bevelSize) {
-				} else {
-					return false;
-				}
+			if (p.focused == true
+					&& (p.index >= firstCompleteIndex && p.index <= lastCompleteIndex)) {
+				return false;
 			}
 
 			return true;
@@ -348,8 +364,9 @@ public class PanesLayout extends FrameLayout {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {		
-		if (!dragging) return true;
+	public boolean onTouchEvent(MotionEvent event) {
+		if (!dragging)
+			return true;
 
 		onTouchEventHelper(event);
 
@@ -403,8 +420,8 @@ public class PanesLayout extends FrameLayout {
 			type = type_;
 
 			setOrientation(LinearLayout.HORIZONTAL);
-			setLayoutParams(new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+			setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.MATCH_PARENT));
 
 			startPadding = new View(context);
 			startPadding.setVisibility(View.INVISIBLE);
@@ -431,31 +448,36 @@ public class PanesLayout extends FrameLayout {
 		}
 
 		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-			int shadowWidth = getResources().getDimensionPixelSize(R.dimen.shadow_size);
+			int shadowWidth = getResources().getDimensionPixelSize(
+					R.dimen.shadow_size);
 
-			startPadding.measure(
-					MeasureSpec.makeMeasureSpec(parentWidth - shadowWidth, MeasureSpec.EXACTLY),
-					MeasureSpec.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
+			startPadding.measure(MeasureSpec.makeMeasureSpec(parentWidth
+					- shadowWidth, MeasureSpec.EXACTLY), MeasureSpec
+					.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
 
-			leftShadow.measure(
-					MeasureSpec.makeMeasureSpec(shadowWidth, MeasureSpec.EXACTLY),
-					MeasureSpec.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
+			leftShadow.measure(MeasureSpec.makeMeasureSpec(shadowWidth,
+					MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(
+					parentHeight, MeasureSpec.EXACTLY));
 
 			PaneSizer paneSizer = mPaneSizer;
 			if (paneSizer != null)
-				containerWidth = paneSizer.getWidth(index, type, parentWidth, parentHeight);
+				containerWidth = paneSizer.getWidth(index, type, parentWidth,
+						parentHeight);
 			else
 				containerWidth = (int) (0.7 * parentWidth);
 
-			container.measure(MeasureSpec.makeMeasureSpec(containerWidth, MeasureSpec.EXACTLY),
-					MeasureSpec.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
+			container.measure(MeasureSpec.makeMeasureSpec(containerWidth,
+					MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(
+					parentHeight, MeasureSpec.EXACTLY));
 
-			rightShadow.measure(
-					MeasureSpec.makeMeasureSpec(shadowWidth, MeasureSpec.EXACTLY),
-					MeasureSpec.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
+			rightShadow.measure(MeasureSpec.makeMeasureSpec(shadowWidth,
+					MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(
+					parentHeight, MeasureSpec.EXACTLY));
 
-			endPadding.measure(MeasureSpec.makeMeasureSpec(parentWidth - containerWidth - shadowWidth,
-					MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(parentHeight, MeasureSpec.EXACTLY));
+			endPadding.measure(MeasureSpec.makeMeasureSpec(parentWidth
+					- containerWidth - shadowWidth, MeasureSpec.EXACTLY),
+					MeasureSpec.makeMeasureSpec(parentHeight,
+							MeasureSpec.EXACTLY));
 
 			this.setMeasuredDimension(
 					resolveSize(parentWidth * 2, widthMeasureSpec),

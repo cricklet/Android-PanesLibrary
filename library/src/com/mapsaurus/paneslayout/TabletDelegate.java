@@ -163,7 +163,7 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 		}
 
 		PaneView p = panesLayout.getPane(index);
-		if (p != null && p.type == type) {
+		if (p != null && p.type == type && p.focused == focused) {
 		} else {
 			clearFragments(index);
 			p = panesLayout.addPane(type, focused);
