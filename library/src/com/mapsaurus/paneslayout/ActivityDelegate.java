@@ -26,6 +26,11 @@ public abstract class ActivityDelegate {
 	 * onCreate
 	 */
 	public abstract void onCreate(Bundle savedInstanceState);
+	
+	/**
+	 * onDestroy
+	 */
+	public abstract void onDestroy();
 
 	/* *********************************************************************
 	 * Adding, removing, getting fragments

@@ -86,6 +86,11 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	}
 
 	@Override
+	public void onDestroy() {
+		panesLayout.setOnIndexChangedListener(null);
+	}
+	
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		if (findViewById(R.id.content_frame) == null) {
 			setContentView(R.layout.panes_layout);

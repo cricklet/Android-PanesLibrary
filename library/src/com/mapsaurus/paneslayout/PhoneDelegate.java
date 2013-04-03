@@ -30,6 +30,10 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putBoolean("PhoneLayout_menuOpen", menu.isMenuShowing());
 	}
+	
+	@Override
+	public void onDestroy() {
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

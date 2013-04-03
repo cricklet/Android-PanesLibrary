@@ -81,11 +81,10 @@ public class PanesLayout extends FrameLayout {
 				int firstCompleteIndex, int lastCompleteIndex);
 	}
 
-	private WeakReference<OnIndexChangedListener> wIndexChangedListener =
-			new WeakReference<OnIndexChangedListener>(null);
+	private OnIndexChangedListener mIndexChangedListener;
 
 	public void setOnIndexChangedListener(OnIndexChangedListener l) {
-		this.wIndexChangedListener = new WeakReference<OnIndexChangedListener>(l);
+		this.mIndexChangedListener = l;
 	}
 
 	public PanesLayout(Context context) {
@@ -255,9 +254,10 @@ public class PanesLayout extends FrameLayout {
 			this.firstCompleteIndex = firstCompleteIndex;
 			this.lastIndex = lastIndex;
 			this.lastCompleteIndex = lastCompleteIndex;
-			OnIndexChangedListener l = wIndexChangedListener.get();
+			OnIndexChangedListener l = mIndexChangedListener;
 			if (l != null)
-				l.onIndexChanged(firstIndex, lastIndex, firstCompleteIndex, lastCompleteIndex);
+				l.onIndexChanged(firstIndex, lastIndex, firstCompleteIndex,
+						lastCompleteIndex);
 		}
 
 		return true;
