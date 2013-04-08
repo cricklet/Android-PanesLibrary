@@ -352,7 +352,7 @@ public class PanesLayout extends FrameLayout {
 			// int bevelSize =
 			// getResources().getDimensionPixelSize(R.dimen.bevel_size);
 
-			if (p.focused == true
+			if (p != null && p.focused == true
 					&& (p.index >= firstCompleteIndex && p.index <= lastCompleteIndex)) {
 				return false;
 			}
