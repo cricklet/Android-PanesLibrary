@@ -16,7 +16,7 @@ ExampleFragment uses a layout with two TextViews and a Button. The TextViews hol
 
 h2. Using PanesLibrary
 
-Make sure you have the "SlidingMenu":https://github.com/jfeinstein10/SlidingMenu and "ActionBarSherlock":http://actionbarsherlock.com/ libraries.
+Make sure you have the most up-to-date "support library":http://developer.android.com/training/basics/fragments/support-lib.html and "ActionBarSherlock":http://actionbarsherlock.com/ libraries.
 
 Have your activity extend PanesActivity. Then, add fragments to the activity using the following functions:
 
