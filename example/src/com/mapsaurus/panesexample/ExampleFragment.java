@@ -39,6 +39,7 @@ public class ExampleFragment extends Fragment {
 	private void addExampleFragment() {
 		// create a new fragment
 		Fragment f = new ExampleFragment();
+		//Fragment f = new ExampleListFragment();
 		
 		// get the activity and add the new fragment after this one!
 		Activity a = getActivity();

@@ -12,35 +12,30 @@ import com.mapsaurus.paneslayout.PanesSizer.PaneSizer;
 public abstract class PanesActivity extends SherlockFragmentActivity implements FragmentLauncher{
 
 	private ActivityDelegate mDelegate;
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
 		mDelegate.onSaveInstanceState(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		int screenSize = (getResources().getConfiguration().screenLayout
 				& Configuration.SCREENLAYOUT_SIZE_MASK);
 
-		if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
-				screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+//		if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
+//				screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
 			mDelegate = new TabletDelegate(this);
-		} else {
-			mDelegate = new PhoneDelegate(this);
-		}
+//		} else {
+//			mDelegate = new PhoneDelegate(this);
+//		}
 
 		mDelegate.onCreate(savedInstanceState);
 	}
-	
-	/**
-	 * Deals with updating fragments on orientation changes and layout changes.
-	 */
-	public abstract void updateFragment(Fragment f);
 
 	/* *********************************************************************
 	 * Deal with over-riding activity methods
@@ -55,13 +50,30 @@ public abstract class PanesActivity extends SherlockFragmentActivity implements 
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		mDelegate.onPostCreate(savedInstanceState);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mDelegate.onConfigurationChanged(newConfig);
+	}
+
 	/**
 	 * Deal with back pressed
 	 */
 	@Override
 	public void onBackPressed() {
-		if (mDelegate.onBackPressed()) return;
+		if (onBackPressedHelper()) return;
 		super.onBackPressed();
+	}
+
+	protected boolean onBackPressedHelper() {
+		if (mDelegate.onBackPressed()) return true;
+		return false;
 	}
 
 	/* *********************************************************************
@@ -92,16 +104,15 @@ public abstract class PanesActivity extends SherlockFragmentActivity implements 
 	@Override
 	public void addFragment(Fragment prevFragment, Fragment newFragment) {
 		mDelegate.addFragment(prevFragment, newFragment);
-		updateFragment(newFragment);
 	}
-	
+
 	/**
 	 * Add a fragment as a menu
 	 */
 	public void setMenuFragment(Fragment f) {
 		mDelegate.setMenuFragment(f);
 	}
-	
+
 	/**
 	 * Clear all fragments from stack except the menu fragment
 	 */

@@ -120,7 +120,6 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 				Fragment f = fm.findFragmentById(id);
 
 				fragmentStack.add(f);
-				updateFragment(f);
 			}
 		}
 	}
@@ -184,7 +183,6 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 		ft.commit();
 
 		fragmentStack.add(index, f);
-		updateFragment(f);
 	}
 
 	@Override
@@ -196,7 +194,6 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 			if (oldIndex != -1) index = oldIndex + 1;
 
 			addFragment(newFragment, index);
-			updateFragment(newFragment);
 		} else {
 			panesLayout.setIndex(1);
 		}
@@ -210,8 +207,6 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	@Override
 	public void setMenuFragment(Fragment menuFragment) {
 		addFragment(menuFragment, 0);
-
-		updateFragment(menuFragment);
 	}
 
 	private int getIndex(Fragment f) {

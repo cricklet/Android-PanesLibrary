@@ -78,10 +78,5 @@ public class ExampleActivity extends PanesActivity {
 			 addFragment(second, third);
 		}
 	}
-
-	@Override
-	public void updateFragment(Fragment f) {
-		// we don't need to do anything to fragments on orientation change
-	}
-
+	
 }

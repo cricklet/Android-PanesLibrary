@@ -3,6 +3,7 @@ package com.mapsaurus.paneslayout;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,17 +21,20 @@ public abstract class ActivityDelegate {
 	/**
 	 * Save the state of the panes 
 	 */
-	public abstract void onSaveInstanceState(Bundle savedInstanceState);
+	public void onSaveInstanceState(Bundle savedInstanceState) {}
 
 	/**
 	 * onCreate
 	 */
 	public abstract void onCreate(Bundle savedInstanceState);
-	
+
 	/**
 	 * onDestroy
 	 */
-	public abstract void onDestroy();
+	public void onDestroy() {}
+
+	protected void onPostCreate(Bundle savedInstanceState) {}
+	protected void onConfigurationChanged(Configuration newConfig) {}
 
 	/* *********************************************************************
 	 * Adding, removing, getting fragments
@@ -84,6 +88,10 @@ public abstract class ActivityDelegate {
 	 * Wrapper functions to make coding a delegate less annoying
 	 * ********************************************************************* */
 
+	protected final void supportInvalidateOptionsMenu() {
+		mActivity.supportInvalidateOptionsMenu();
+	}
+
 	protected final PanesActivity getActivity() {
 		return mActivity;
 	}
@@ -106,10 +114,6 @@ public abstract class ActivityDelegate {
 
 	protected final View findViewById(int id) {
 		return mActivity.findViewById(id);
-	}
-
-	protected final void updateFragment(Fragment f) {
-		mActivity.updateFragment(f);
 	}
 
 }

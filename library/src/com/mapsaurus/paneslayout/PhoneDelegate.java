@@ -6,74 +6,84 @@ import java.util.ArrayList;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.mapsaurus.panelayout.R;
-import com.slidingmenu.lib.SlidingMenu;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.ActionProvider;
+import android.view.SubMenu;
+import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuItem.OnActionExpandListener;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
-public class PhoneDelegate extends ActivityDelegate implements 
-SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListener {
+public class PhoneDelegate extends ActivityDelegate implements OnBackStackChangedListener {
 
-	private SlidingMenu menu;
+	private ActionBarDrawerToggle drawerToggle;
+	private DrawerLayout drawer;
 
 	public PhoneDelegate(PanesActivity a) {
 		super(a);
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		savedInstanceState.putBoolean("PhoneLayout_menuOpen", menu.isMenuShowing());
-	}
-	
-	@Override
-	public void onDestroy() {
-	}
-
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		if (findViewById(R.id.content_frame) == null)
-			setContentView(R.layout.content_frame);
+			setContentView(R.layout.phone_layout);
+		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		
+		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		
+		drawerToggle = new ActionBarDrawerToggle(
+				getActivity(), drawer, R.drawable.ic_drawer,
+				R.string.drawer_open, R.string.drawer_close) {
+			public void onDrawerClosed(View view) {
+				supportInvalidateOptionsMenu();
+				// creates call to onPrepareOptionsMenu()
+			}
 
-		// initialize sliding menu
-		menu = new SlidingMenu(getActivity());
-		menu.setMode(SlidingMenu.LEFT);
-		menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-
-		int shadowWidth = getResources().getDimensionPixelSize(R.dimen.shadow_size);
-		int menuOffset = getResources().getDimensionPixelSize(R.dimen.menu_offset);
-
-		menu.setShadowWidth(shadowWidth);
-		menu.setShadowDrawable(R.drawable.shadow_left);
-		menu.setBehindOffset(menuOffset);
-
-		menu.setOnCloseListener(this);
-		menu.setOnOpenListener(this);
-
-		menu.setMenu(R.layout.menu_frame);
+			public void onDrawerOpened(View drawerView) {
+				supportInvalidateOptionsMenu();
+				// creates call to onPrepareOptionsMenu()
+			}
+		};
+		drawer.setDrawerListener(drawerToggle);
 
 		FragmentManager fm = getSupportFragmentManager();
 		fm.addOnBackStackChangedListener(this);
+	}
 
-		if (savedInstanceState != null) {
-			updateFragment(getTopFragment());
-			updateFragment(getMenuFragment());
-		}
+	/**
+	 * When using the ActionBarDrawerToggle, you must call it during
+	 * onPostCreate() and onConfigurationChanged()...
+	 */
 
-		menu.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
-		if (savedInstanceState == null) {
-			menu.showContent();
-		} else {
-			if (savedInstanceState.getBoolean("PhoneLayout_menuOpen"))
-				menu.showMenu();
-			else menu.showContent();
-		}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		drawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// Pass any configuration change to the drawer toggles
+		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	/* *********************************************************************
@@ -81,46 +91,36 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	 * ********************************************************************* */
 
 	@Override
-	public void onClose() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	}
-
-	@Override
-	public void onOpen() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-	}
-
-	@Override
 	public boolean onBackPressed() {
-		FragmentManager fm = getSupportFragmentManager();
-
-		if (menu.isMenuShowing() == false) {
-			if (fm.getBackStackEntryCount() > 0) {
-				return false;
-			} else {
-				menu.showMenu();
-				return true;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			if (!menu.isMenuShowing())
-				menu.showMenu();
-			return true;
-		}
 		return false;
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			// drawer enabled
+			if (drawerToggle.isDrawerIndicatorEnabled()) {
+				// The action bar home/up action should open or close the drawer.
+				// ActionBarDrawerToggle will take care of this.
+				if (drawerToggle.onOptionsItemSelected(new MenuItemWrapper(item))) 
+					return true;
+			} else {
+				clearFragments();
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	@Override
 	public void onBackStackChanged() {
-		updateFragment(getTopFragment());
-		updateFragment(getMenuFragment());
+		FragmentManager fm = getSupportFragmentManager();
+		int count = fm.getBackStackEntryCount();
+		if (count > 0)
+			drawerToggle.setDrawerIndicatorEnabled(false);
+		else
+			drawerToggle.setDrawerIndicatorEnabled(true);
 	}
 
 	/* *********************************************************************
@@ -132,7 +132,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	 * we need to retrieve a fragment, that fragment has not yet been added.
 	 */
 	private WeakReference<Fragment> wMenuFragment = new WeakReference<Fragment>(null);
-	
+
 	@Override
 	public void addFragment(Fragment prevFragment, Fragment newFragment) {
 		boolean addToBackStack = false;
@@ -142,7 +142,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 			addToBackStack = true;
 		}
 
-		if (menu.isMenuShowing()) menu.showContent();
+		drawer.closeDrawer(GravityCompat.START);
 
 		if (newFragment != null) {
 			FragmentManager fm = getSupportFragmentManager();
@@ -152,8 +152,6 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 			ft.replace(R.id.content_frame, newFragment);
 			if (addToBackStack) ft.addToBackStack(newFragment.toString());
 			ft.commit();
-
-			updateFragment(newFragment);
 		}
 	}
 
@@ -170,10 +168,8 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(R.id.menu_frame, f);
 		ft.commit();
-		
-		wMenuFragment = new WeakReference<Fragment>(f);
 
-		updateFragment(f);
+		wMenuFragment = new WeakReference<Fragment>(f);
 	}
 
 	@Override
@@ -193,7 +189,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 
 	@Override
 	public void showMenu() {
-		menu.showMenu(true);
+		drawer.openDrawer(GravityCompat.START);
 	}
 
 }

@@ -327,7 +327,7 @@ public class PanesLayout extends FrameLayout {
 
 	private double currentY;
 	private double startY;
-
+	
 	private boolean dragging;
 
 	private void onTouchEventHelper(MotionEvent event) {
