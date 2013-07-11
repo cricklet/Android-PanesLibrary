@@ -27,12 +27,12 @@ public abstract class PanesActivity extends SherlockFragmentActivity implements 
 		int screenSize = (getResources().getConfiguration().screenLayout
 				& Configuration.SCREENLAYOUT_SIZE_MASK);
 
-//		if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
-//				screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+		if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
+				screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
 			mDelegate = new TabletDelegate(this);
-//		} else {
-//			mDelegate = new PhoneDelegate(this);
-//		}
+		} else {
+			mDelegate = new PhoneDelegate(this);
+		}
 
 		mDelegate.onCreate(savedInstanceState);
 	}
