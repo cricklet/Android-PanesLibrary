@@ -148,13 +148,11 @@ public class PanesLayout extends FrameLayout {
 	private void scrollHelper(SimpleScrollView s, double scrollX, boolean smooth) {
 		scrollX = Math.min(scrollX, parentWidth);
 		scrollX = Math.max(scrollX, 0);
-
-		if (!s.isLayoutDirty()) {
-			if (smooth)
-				s.smoothScrollTo((int) scrollX, 0);
-			else
-				s.scrollTo((int) scrollX, 0);
-		}
+		
+		if (smooth)
+			s.smoothScrollTo((int) scrollX, 0);
+		else
+			s.scrollTo((int) scrollX, 0);
 	}
 
 	/**

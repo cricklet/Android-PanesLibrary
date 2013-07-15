@@ -151,6 +151,7 @@ public class SimpleScrollView extends FrameLayout {
 	public final void smoothScrollBy(int dx, int dy) {
 		mScroller.startScroll(getScrollX(), getScrollY(), dx, dy);
 		invalidate();
+		mIsLayoutDirty = true;
 	}
 
 	/**
