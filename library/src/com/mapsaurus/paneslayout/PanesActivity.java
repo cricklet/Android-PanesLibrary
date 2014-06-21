@@ -108,6 +108,13 @@ public abstract class PanesActivity extends SherlockFragmentActivity implements 
 	public void clearFragments() {
 		mDelegate.clearFragments();
 	}
+	
+	/**
+	 * Clear last fragment from stack
+	 */
+	public void clearLastFragment() {
+		mDelegate.clearLastFragment();
+	}
 
 	/**
 	 * Get menu framgent

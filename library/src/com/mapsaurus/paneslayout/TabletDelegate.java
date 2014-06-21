@@ -206,6 +206,11 @@ public class TabletDelegate extends ActivityDelegate implements PanesLayout.OnIn
 	public void clearFragments() {
 		clearFragments(0);
 	}
+	
+	@Override
+	public void clearLastFragment() {
+		clearFragments(panesLayout.getCurrentIndex());
+	}
 
 	@Override
 	public void setMenuFragment(Fragment menuFragment) {

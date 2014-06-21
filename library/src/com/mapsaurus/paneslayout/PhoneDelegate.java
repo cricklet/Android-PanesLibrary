@@ -30,7 +30,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putBoolean("PhoneLayout_menuOpen", menu.isMenuShowing());
 	}
-	
+
 	@Override
 	public void onDestroy() {
 	}
@@ -132,7 +132,7 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	 * we need to retrieve a fragment, that fragment has not yet been added.
 	 */
 	private WeakReference<Fragment> wMenuFragment = new WeakReference<Fragment>(null);
-	
+
 	@Override
 	public void addFragment(Fragment prevFragment, Fragment newFragment) {
 		boolean addToBackStack = false;
@@ -165,12 +165,19 @@ SlidingMenu.OnOpenListener, SlidingMenu.OnCloseListener, OnBackStackChangedListe
 	}
 
 	@Override
+	public void clearLastFragment() {
+		FragmentManager fm = getSupportFragmentManager();
+		if (fm.getBackStackEntryCount() > 0)       
+			fm.popBackStack();
+	}	
+
+	@Override
 	public void setMenuFragment(Fragment f) {
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(R.id.menu_frame, f);
 		ft.commit();
-		
+
 		wMenuFragment = new WeakReference<Fragment>(f);
 
 		updateFragment(f);
