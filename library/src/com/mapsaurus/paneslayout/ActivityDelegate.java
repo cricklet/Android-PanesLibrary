@@ -54,6 +54,11 @@ public abstract class ActivityDelegate {
 	 * Clear all fragments from stack
 	 */
 	public abstract void clearFragments();
+	
+    /**
+     * Clear only last fragment from stack
+     */
+    public abstract void clearLastFragment();
 
 	/**
 	 * Get menu framgent
