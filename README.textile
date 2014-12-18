@@ -1,3 +1,5 @@
+(disclaimer: unfortunately, I don't do Android dev anymore, so I can't maintain this library)
+
 h1. PanesLibrary
 
 This library makes it ridiculously easy to make native Android apps with multi-pane tablet layouts. On the phone, the app appears as a conventional app with a sliding menu and a content pane where fragments are stacked on top of each other. On the tablet, the menu and all other fragments appear in dynamically added panes of varying sizes. 
