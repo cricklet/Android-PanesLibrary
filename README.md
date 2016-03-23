@@ -2,19 +2,19 @@
 
 [![Android PanesLibrary](http://i.imgur.com/y213zca.png)](https://www.youtube.com/watch?v=UA-lAGVXoLU&feature=youtu.be)
 
-h1. PanesLibrary
+# PanesLibrary
 
 This library makes it easy to make native Android apps with multi-pane tablet layouts. On the phone, the app appears as a conventional app with a sliding menu and a content pane where fragments are stacked on top of each other. On the tablet, the menu and all other fragments appear in dynamically added panes of varying sizes. 
 
-h2. Example
+## Example
 
 ExampleActivity demonstrates all the necessary configuration for using PanesActivity.
 
 ExampleFragment uses a layout with two TextViews and a Button. The TextViews hold the index of the fragment and the length of time it's been alive. This is used to demonstrate that fragments are correctly retained on activity restarts. The Button has a callback which creates a new fragment and adds it to the parent activity.
 
-h2. Using PanesLibrary
+## Using PanesLibrary
 
-Make sure you have the most up-to-date "support library":http://developer.android.com/training/basics/fragments/support-lib.html and "ActionBarSherlock":http://actionbarsherlock.com/ libraries.
+Make sure you have the most up-to-date [support library](http://developer.android.com/training/basics/fragments/support-lib.html) and [ActionBarSherlock](http://actionbarsherlock.com/).
 
 Have your activity extend PanesActivity. Then, add fragments to the activity using the following functions:
 
@@ -30,7 +30,7 @@ You should also implement updateFragment(...). This is run whenever a fragment i
  
 Fragments are added onto a stack where the 0th fragment is the menu. Here's an example of what this means:
 
-<pre><code>
+```
 > setMenuFragment(A)
 stack: A
 
@@ -48,14 +48,15 @@ stack: A, B, E
 
 >clearFragments()
 stack: A
-</code></pre>
+```
 
 Note: PanesActivity requires you to use fragments. If you don't use fragments, you can still use PanesLayout manually.
 
-h2. PanesLayout (this controls the tablet layout)
+## PanesLayout (this controls the tablet layout)
 
 The hierarchy of a PanesLayout looks like this:
-<pre><code>|--------------------------------|
+```
+|--------------------------------|
 | PanesLayout                    |
 | |----------------------------| |
 | | PaneScrollView             | |
@@ -65,7 +66,8 @@ The hierarchy of a PanesLayout looks like this:
 | | |          |-----------| | | |
 | | |------------------------| | |
 | |----------------------------| |
-|--------------------------------|</code></pre>
+|--------------------------------|
+```
 
 A PanesLayout can hold any number of panes. Each pane is made up of a PaneScrollView (which allows the pane contents to slide left & right), a PaneView (which provides padding on the left of the content), and some content (i.e. fragment).
 
@@ -86,7 +88,8 @@ Listeners/delegates:
  * PaneSizer: determines what the type/focus of a pane should be based on some associated object (i.e. Fragment or View)
  * OnIndexChangedListener: this is fired whenever the visible panes change.
 
-<pre><code>Copyright 2013 Kenrick Rilee
+```
+Copyright 2013 Kenrick Rilee
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -98,4 +101,5 @@ You may obtain a copy of the License at
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
-   limitations under the License.</pre></code>
+   limitations under the License.
+```
