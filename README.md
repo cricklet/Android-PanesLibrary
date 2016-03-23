@@ -1,16 +1,12 @@
 (disclaimer: unfortunately, I don't do Android dev anymore, so I can't maintain this library)
 
+[![Android PanesLibrary](http://i.imgur.com/y213zca.png)](https://www.youtube.com/watch?v=UA-lAGVXoLU&feature=youtu.be)
+
 h1. PanesLibrary
 
-This library makes it ridiculously easy to make native Android apps with multi-pane tablet layouts. On the phone, the app appears as a conventional app with a sliding menu and a content pane where fragments are stacked on top of each other. On the tablet, the menu and all other fragments appear in dynamically added panes of varying sizes. 
-
-"Here's a YouTube video of PanesLibrary in action.":http://www.youtube.com/watch?v=UA-lAGVXoLU&feature=youtu.be
-
-Unfortunately, I don't do Android development anymore, so I won't be supporting this project.
+This library makes it easy to make native Android apps with multi-pane tablet layouts. On the phone, the app appears as a conventional app with a sliding menu and a content pane where fragments are stacked on top of each other. On the tablet, the menu and all other fragments appear in dynamically added panes of varying sizes. 
 
 h2. Example
-
-The example provided is very simple. Looking through the code there is probably the best place to start.
 
 ExampleActivity demonstrates all the necessary configuration for using PanesActivity.
 
