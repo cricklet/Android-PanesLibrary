@@ -1,4 +1,4 @@
-Disclaimer: unfortunately, I don't do Android dev anymore, so I can't maintain this library. Also, I've learned a lot since I wrote this library and wouldn't consider it a shining example of clean code ;)
+Disclaimer: unfortunately, I don't do Android dev anymore, so I can't maintain this library.
 
 [![Android PanesLibrary](http://i.imgur.com/y213zca.png)](https://www.youtube.com/watch?v=UA-lAGVXoLU&feature=youtu.be)
 
