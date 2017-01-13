@@ -161,6 +161,13 @@ public class PhoneDelegate extends ActivityDelegate implements OnBackStackChange
 		for(int i = 0; i < fm.getBackStackEntryCount(); i ++)    
 			fm.popBackStack();
 	}
+	
+    @Override
+    public void clearLastFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0)       
+            fm.popBackStack();
+    }    
 
 	@Override
 	public void setMenuFragment(Fragment f) {
